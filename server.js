@@ -1,6 +1,8 @@
 var express = require('express')
 var mongoose = require('mongoose')
 var bodyParser = require('body-parser')
+var passport = require('passport')
+
 const users = require('./routes/api/users')
 const profile = require('./routes/api/profile')
 const posts = require('./routes/api/posts')
@@ -18,6 +20,11 @@ mongoose
 app.get('/',(req,res)=>{
     res.send("Hello Sagar Jadhav")
 })
+
+//Passport middleware
+app.use(passport.initialize());
+
+require('./config/passport')(passport)
 
 app.use('/api/users',users);
 app.use('/api/profile',profile);

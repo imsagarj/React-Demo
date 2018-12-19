@@ -5,6 +5,7 @@ var bcrypt = require('bcryptjs')
 var jwt = require('jsonwebtoken')
 var key = require('../../config/key')
 var userModel = require('../../models/User')
+var passport = require('passport')
 
 // Test API
 router.get('/test', function(req, res) {
@@ -72,12 +73,20 @@ router.post('/login',(req,res)=>{
                     jwt.sign(data,key.secretKey,{expiresIn:3600},(err,token)=>{
                         res.json({
                             success:true,
-                            token:'sagar '+ token
+                            token:'Bearer '+ token
                         })
                     })
                 }
                
             })
     })
+});
+
+// API WITH PASSPORT
+router.get('/current',passport.authenticate('jwt', {session:false}),(req,res)=>{
+    res.json({msg:"Success"})
 })
+
+
+
 module.exports = router;
